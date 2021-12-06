@@ -11,6 +11,7 @@ def generate_code():
         code = ''.join(random.choices(string.ascii_uppercase, k=len))
         if Room.objects.filter(code=code).count() == 0:
             break
+        return code
 
 class Room(models.Model):
     code = models.CharField(default="", unique=True, max_length=50)
