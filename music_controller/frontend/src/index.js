@@ -3,4 +3,4 @@ import {render} from "react-dom";
 import React from "react";
 
 const appDiv = document.getElementById("app");
-render(<App />, appDiv);
+render(<App name="Bob"/>, appDiv);
