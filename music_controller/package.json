@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "react-router": "^6.0.2"
+    "react-router": "^5"
   }
 }

@@ -1,87 +1,40 @@
 import React, {Component} from "react";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import {Link} from 'react-router-dom';
-import Radio from "@material-ui/core/Radio"
-import RadioGroup from "@material-ui/core/RadioGroup"
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { TextField, Button, Grid, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom"
 
-
-export default class RoomJoinPage extends Component{
-    defaultVotes = 2;
+export default class CreateRoomPage extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            guest_can_pause: true,
-            votes_to_skip: this.defaultVotes,
+            roomCode: "",
+            error: "",
         };
-        this.handleRoomButtonPress = this.handleRoomButtonPress.bind(this);
-        this.handleVotesChange = this.handleVotesChange.bind(this);
-        this.handleGuestCanPauseChange = this.handleGuestCanPauseChange.bind(this);
-
+        this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
     }
 
-    handleVotesChange(e){
-        this.setState({votes_to_skip:e.target.value})
-    }
-
-    handleGuestCanPauseChange(e){
-        this.setState({guest_can_pause: e.target.value === 'true'})
-    }
-
-    handleRoomButtonPress(){
-        const requestOptions = {
-            method: 'POST',
-            headers: {'content-Type': 'application/json'},
-            body: JSON.stringify({
-                votes_to_skip : this.state.votes_to_skip,
-                guest_can_pause: this.state.guest_can_pause
-            }),
-        };
-        fetch('/api/create-room', requestOptions).then((response)=> response.json()).then((data)=> console.log(data));
+    handleTextFieldChange(e){
+        this.setState({roomCode: e.target.value});
     }
 
     render() {
         return (
-            <Grid container spacing={1}>
-                <Grid item xs={12} align="center">
-                    <Typography component="h4" variant="h4">
-                        Create a Room
-                    </Typography>
+            <Grid container spacing={1} alignItems="center">
+                < Grid item xs={12} align = "center">
+                    <Typography variant="h4" component = "h4">Join a Room</Typography>
                 </Grid>
-                <Grid item xs={12} align="center">
-                    <FormControl component = "fieldset" >
-                        <FormHelperText>
-                            <div align="center">
-                                Guest control of playback state
-                            </div>
-                        </FormHelperText>
-                        <RadioGroup row defaultValue="true" onClick = {this.handleGuestCanPauseChange}>
-                            <FormControlLabel value="true" control={<Radio color="primary" />} label="play/pause" labelPlacement="bottom"/>
-                            <FormControlLabel value="false" control={<Radio color="secondary" />} label="No control" labelPlacement="bottom"/>
-                        </RadioGroup>
-                    </FormControl>
+                < Grid item xs={12} align = "center">
+                    <TextField error={this.state.error} label="code" onchange={this.handleTextFieldChange} placeholder="Enter a Room code" value={this.state.roomCode}
+                               helperText={this.state.error} variant="outlined" />
                 </Grid>
-                <Grid item sm={12} align="center">
-                    <FormControl>
-                        <TextField required={true} onChange={this.handleVotesChange} type={"number"} defaultValue={this.defaultVotes} inputProps={{min: 1, style: {textAlign: "center"}}} />
-                        <FormHelperText>
-                            <div align='center'>
-                                Votes Required to skip song
-                            </div>
-                        </FormHelperText>
-                    </FormControl>
+                < Grid item xs={12} align = "center">
+                    <Button color="secondary" variant="contained" onClick={this.handleTextFieldChange}>Enter Room</Button>
                 </Grid>
-                <Grid item xs={12} align="center">
-                    <Button color="secondary" onClick={this.handleRoomButtonPress} variant="contained"> Create a Room</Button>
+                < Grid item xs={12} align = "center">
+                    <Button color="secondary" variant="contained" to="/" component = {Link}>Back to Home</Button>
                 </Grid>
-                <Grid item xs={12} align="center">
-                    <Button color="secondary" variant="outlined" to="/" component={Link}> Back</Button>
-                </Grid>
-            </Grid>);
+
+
+            </ Grid >
+        );
     }
 }
