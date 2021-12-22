@@ -6,9 +6,10 @@ export default class App extends Component {
     constructor(props) {
         super(props);
     }
-    render(){
+
+    render() {
         return (
-            <div className = "center">
+            <div className="center">
                 <HomePage/>
             </div>
         );

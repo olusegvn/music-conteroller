@@ -1,16 +1,18 @@
 import React, {Component} from "react";
 import CreateRoomPage from "./CreateRoom";
 import RoomJoinPage from "./RoomJoin"
-import {Grid, Button, ButtonGroup, Typography} from '@material-ui/core'
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import {Switch, Redirect} from 'react-router';
+import {Button, ButtonGroup, Grid, Typography} from '@material-ui/core'
+import {BrowserRouter as Router, Link, Route} from "react-router-dom";
+import {Redirect, Switch} from 'react-router';
 import Room from "./Room";
-export default class HomePage extends Component{
+import Info from './info';
+
+export default class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             roomCode: null
-        }
+        };
         this.clearRoomCode = this.clearRoomCode.bind(this)
     }
 
@@ -21,16 +23,18 @@ export default class HomePage extends Component{
             });
     }
 
-    renderHomePage(){
-        return(
+    renderHomePage() {
+        return (
             <Grid container spacing={3}>
-                <Grid item xs={12} align = "center" >
-                    <Typography variant="h3" component = "h3">House Party</Typography>
+                <Grid item xs={12} align="center">
+                    <Typography variant="h3" component="h3">House Party</Typography>
                 </Grid>
-                <Grid item xs={12} align = "center" >
+                <Grid item xs={12} align="center">
                     <ButtonGroup disableElevation value="contained" color="primary">
-                        <Button color="primary" variant="contained" to={'/create'} component = {Link}>Create a ROom</Button>
-                        <Button color="secondary" variant="contained" to={'/join'} component = {Link}>Join a ROom</Button>
+                        <Button color="primary" variant="contained" to={'/create'} component={Link}>Create a
+                            ROom</Button>
+                        <Button color="default" variant="contained" to={'/info'} component={Link}>Info</Button>
+                        <Button color="secondary" variant="contained" to={'/join'} component={Link}>Join a ROom</Button>
                     </ButtonGroup>
                 </Grid>
 
@@ -39,7 +43,7 @@ export default class HomePage extends Component{
 
     }
 
-    clearRoomCode(){
+    clearRoomCode() {
         this.setState({roomCode: null})
     }
 
@@ -47,16 +51,20 @@ export default class HomePage extends Component{
         return (
             <Router>
                 <Switch>
-                    <Route exact path = "/" render={() => {
-                        return this.state.roomCode ? (<Redirect to={`/room/${this.state.roomCode}`} />) : this.renderHomePage()
+                    <Route exact path="/" render={() => {
+                        return this.state.roomCode ? (
+                            <Redirect to={`/room/${this.state.roomCode}`}/>) : this.renderHomePage()
                     }}/>
-                    <Route exact path = "/join" component={RoomJoinPage} />
-                    <Route exact path = "/room/:roomCode" render={(props) => {
+                    <Route exact path="/join" component={RoomJoinPage}/>
+                    <Route exact path="/info" component={Info}/>
+                    <Route exact path="/room/:roomCode" render={(props) => {
                         return <Room {...props} leaveRoomCallback={this.clearRoomCode}
-                    />}}/>
-                    <Route exact path = "/create" component={CreateRoomPage} />
+                        />
+                    }}/>
+                    <Route exact path="/create" component={CreateRoomPage}/>
                 </Switch>
             </Router>
         );
     }
 }
+// TODO: convert all functional components to class components.
